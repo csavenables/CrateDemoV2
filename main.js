@@ -1,16 +1,11 @@
 import { MIRIS_ASSETS } from "./splat-config.js";
 
 // ── Suppress Miris SDK console noise ─────────────────────────────────────────
-const MIRIS_TS = /^\[[\d-]+ [\d:.]+\]/;
-const MIRIS_KEYWORDS = [
-  "LOD", "nbf", "rsnap", "worker result", "miris", "Miris",
-  "splat", "stream", "viewer", "jwt", "JWT", "violation",
-  "requestAnimationFrame handler took", "pointcloud", "PointCloud",
-  "Received modified event",
-];
+// Single compiled regex — faster than iterating a keyword array on every call
+const MIRIS_NOISE =
+  /^\[[\d-]+ [\d:.]+\]|LOD|nbf|rsnap|worker result|[Mm]iris|splat|[Ss]tream|viewer|[Jj][Ww][Tt]|violation|requestAnimationFrame handler took|[Pp]oint[Cc]loud|Received modified event/;
 function isMirisNoise(args) {
-  const msg = String(args[0] ?? "");
-  return MIRIS_TS.test(msg) || MIRIS_KEYWORDS.some(k => msg.includes(k));
+  return MIRIS_NOISE.test(String(args[0] ?? ""));
 }
 ["log", "warn", "error"].forEach(method => {
   const orig = console[method].bind(console);
@@ -38,7 +33,7 @@ function lockView(frames) {
   if (frames > 0) requestAnimationFrame(() => lockView(frames - 1));
 }
 
-lockView(60);
+lockView(20);
 
 // ── Shared scene-switch logic ─────────────────────────────────────────────────
 function goTo(index) {
@@ -48,7 +43,7 @@ function goTo(index) {
   buttons[activeIndex].classList.remove("is-active");
   activeIndex = i;
   stream.setAttribute("uuid", MIRIS_ASSETS[i].uuid);
-  lockView(60);
+  lockView(20);
   buttons[activeIndex].classList.add("is-active");
 }
 
