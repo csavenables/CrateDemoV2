@@ -39,7 +39,15 @@ if (typeof window === "undefined") {
     navigator.serviceWorker
       .register(document.currentScript.src)
       .then(() => {
-        if (!window.crossOriginIsolated) window.location.reload();
+        if (!window.crossOriginIsolated) {
+          // Only reload once — if still not isolated after a reload the browser
+          // doesn't support credentialless COEP (e.g. iOS Safari). Bail out so
+          // we don't get an infinite reload loop. SDK falls back gracefully.
+          if (!sessionStorage.getItem("coi-reloaded")) {
+            sessionStorage.setItem("coi-reloaded", "1");
+            window.location.reload();
+          }
+        }
       });
   })();
 }
