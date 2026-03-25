@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  overflow: hidden;
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+miris-scene {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+miris-stream {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.scene-nav {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.scene-btn {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(184, 199, 226, 0.3);
+  background: rgba(15, 24, 39, 0.88);
+  box-shadow: 0 10px 28px rgba(7, 12, 20, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: rgba(238, 244, 255, 0.9);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 130ms ease, border-color 130ms ease, color 130ms ease, box-shadow 130ms ease;
+}
+
+.scene-btn:hover {
+  background: rgba(23, 36, 58, 0.96);
+  color: #ffffff;
+}
+
+.scene-btn.is-active {
+  border-color: rgba(126, 172, 255, 0.72);
+  background: linear-gradient(180deg, rgba(110, 170, 255, 0.45), rgba(73, 128, 214, 0.45)) rgba(32, 52, 84, 0.98);
+  color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(126, 172, 255, 0.35), 0 12px 30px rgba(38, 86, 163, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.scene-btn:focus-visible {
+  outline: 2px solid rgba(79, 141, 255, 0.35);
+  outline-offset: 2px;
+}
+
+.scene-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 199, 226, 0.3);
+  background: rgba(15, 24, 39, 0.88);
+  box-shadow: 0 10px 28px rgba(7, 12, 20, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: rgba(238, 244, 255, 0.9);
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 130ms ease, border-color 130ms ease, color 130ms ease, box-shadow 130ms ease;
+}
+
+.scene-arrow:hover {
+  background: rgba(23, 36, 58, 0.96);
+  color: #ffffff;
+}
+
+.scene-arrow:focus-visible {
+  outline: 2px solid rgba(79, 141, 255, 0.35);
+  outline-offset: 2px;
+}
+
+.scene-arrow--left  { left: 20px; }
+.scene-arrow--right { right: 20px; }
+
+@media (max-width: 640px) {
+  .scene-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+  .scene-arrow {
+    width: 40px;
+    height: 40px;
+  }
+}
